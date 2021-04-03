@@ -65,24 +65,57 @@
             margin-bottom: 30px;
         }
 
+
     </style>
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse d-flex justify-content-end">
+                <ul class="navbar-nav mb-2 mb-lg-0 ">
+                    @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                        <li class="nav-item">
+                            <a class="nav-link active" rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                                {{ $properties['native'] }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    </nav>
     <div class="flex-center flex-column full-height">
         @if (Session::has('success'))
             <div class="alert alert-success text-center" role="alert">
-                {{ Session::get("success") }}
+                {{ Session::get('success') }}
             </div>
         @endif
 
         <form class="text-center" method="POST" action="{{ route('offers.store') }}">
             @csrf
             <div class="row mb-3">
-                <label for="name" class="col-sm-2 col-form-label">Name</label>
+                <label for="name" class="col-sm-2 col-form-label">Name In English</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="name" autofocus>
-                    @error('name')
+                    <input type="text" class="form-control" name="name_en" autofocus>
+                    @error('name_en')
+                        <div class="alert alert-danger" role="alert">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="name" class="col-sm-2 col-form-label">Name In Arabic</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="name_ar" autofocus>
+                    @error('name_ar')
                         <div class="alert alert-danger" role="alert">
                             {{ $message }}
                         </div>
@@ -101,10 +134,21 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="details" class="col-sm-2 col-form-label">Details</label>
+                <label for="details" class="col-sm-2 col-form-label">Details In English</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="details">
-                    @error('details')
+                    <input type="text" class="form-control" name="details_en">
+                    @error('details_en')
+                        <div class="alert alert-danger" role="alert">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="details" class="col-sm-2 col-form-label">Details In Arabic</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="details_ar">
+                    @error('details_ar')
                         <div class="alert alert-danger" role="alert">
                             {{ $message }}
                         </div>
